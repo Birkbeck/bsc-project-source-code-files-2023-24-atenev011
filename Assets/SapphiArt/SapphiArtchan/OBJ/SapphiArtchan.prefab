@@ -4478,6 +4478,8 @@ GameObject:
   - component: {fileID: 463472}
   - component: {fileID: 9590100}
   - component: {fileID: 11415292}
+  - component: {fileID: 1142110517778030659}
+  - component: {fileID: 4309901075572314953}
   m_Layer: 0
   m_Name: SapphiArtchan
   m_TagString: Untagged
@@ -4532,6 +4534,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4ccb49676687917499386abab8234bd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1142110517778030659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aa09b6b8a848f34bb92224eb514429b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4309901075572314953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 646c8c3175ad9a2449450768f40664fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &172742
