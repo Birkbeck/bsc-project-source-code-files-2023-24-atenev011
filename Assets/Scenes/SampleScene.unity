@@ -388,7 +388,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 4
+  field of view: 30
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -434,20 +434,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 543450653490344449}
+  headTarget: {fileID: 8700783698622080108}
   distance: 6
-  height: 3
-  smoothSpeed: 5
-  rotationMinMax: {x: -40, y: 80}
+  adjustableHeight: 1.8
+  smoothSpeed: 0
+  rotationMinMax: {x: -80, y: 80}
   rotationSpeed: 3
   zoomSpeed: 5
-  distanceMinMax: {x: 4, y: 30}
+  distanceMinMax: {x: 2, y: 30}
   terrainLayerMask:
     serializedVersion: 2
     m_Bits: 8
   terrainOffset: 1
-  minFOV: 10
-  maxFOV: 60
-  targetHeight: 2
+  fovMinMax: {x: 0.1, y: 60}
 --- !u!1001 &1563581119
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -741,8 +740,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4d41f13b85bbbd45b1c1169ba8d5ac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 2
-  runSpeed: 5
+  walkSpeed: 5
+  runSpeed: 10
   rotationSpeed: 300
 --- !u!4 &1031632034059585628
 Transform:
