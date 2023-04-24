@@ -28,7 +28,7 @@ public class PlayerMovement : MonoBehaviour
         bool isBackWalking = Input.GetKey(KeyCode.S);
         bool isLeftWalking = Input.GetKey(KeyCode.A);
         bool isRightWalking = Input.GetKey(KeyCode.D);
-        bool isRunning = Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W);
+        bool isRunning = Input.GetKey(KeyCode.LeftShift) && isWalking;
 
         float movementSpeed = isRunning ? runSpeed : walkSpeed;
 
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 moveDirection = (cameraForward * vertical + cameraRight * horizontal).normalized;
 
-        if (moveDirection != Vector3.zero && isWalking)
+        if (moveDirection != Vector3.zero)
         {
             Quaternion toRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
@@ -51,6 +51,6 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("isWalking", isWalking);
         animator.SetBool("isRightWalking", isRightWalking);
         animator.SetBool("isLeftWalking", isLeftWalking);
-        animator.SetBool("isBackWalking", isBackWalking && !isRunning);
+        animator.SetBool("isBackWalking", isBackWalking);
     }
 }

@@ -12,6 +12,9 @@ public class CameraFollow : MonoBehaviour
     public Vector2 distanceMinMax = new Vector2(2f, 10f);
     public LayerMask terrainLayerMask;
     public float terrainOffset = 1f;
+    public float minFOV = 30f;
+    public float maxFOV = 60f;
+    public float targetHeight = 1.8f;
 
     private Vector3 currentVelocity;
     private float rotationX;
@@ -45,16 +48,20 @@ public class CameraFollow : MonoBehaviour
 
         Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);
 
-        Vector3 targetPosition = target.position - (rotation * Vector3.forward * distance) + (Vector3.up * height);
+        Vector3 targetPosition = target.position + (Vector3.up * targetHeight) - (rotation * Vector3.forward * distance) + (Vector3.up * height);
 
         RaycastHit hit;
-        if (Physics.Raycast(target.position, (targetPosition - target.position).normalized, out hit, distance, terrainLayerMask))
+        if (Physics.Raycast(target.position + (Vector3.up * targetHeight), (targetPosition - target.position).normalized, out hit, distance, terrainLayerMask))
         {
             targetPosition = hit.point + hit.normal * terrainOffset;
         }
 
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothSpeed * Time.deltaTime);
 
-        transform.LookAt(target);
+        float currentDistance = Vector3.Distance(transform.position, target.position);
+        float t = (currentDistance - distanceMinMax.x) / (distanceMinMax.y - distanceMinMax.x);
+        MainCamera.fieldOfView = Mathf.Lerp(minFOV, maxFOV, t);
+
+        transform.LookAt(target.position + (Vector3.up * targetHeight));
     }
 }
