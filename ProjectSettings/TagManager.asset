@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Terrain
   - NPC
+  - NameToLayer
   layers:
   - Default
   - TransparentFX
@@ -13,7 +14,7 @@ TagManager:
   - Terrain
   - Water
   - UI
-  - 
+  - Dialogue
   - 
   - 
   - 

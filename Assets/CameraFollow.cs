@@ -3,7 +3,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;
-    public Transform headTarget; // Add a new Transform for the head
+    public Transform headTarget;
     public float distance = 4f;
     public float adjustableHeight = 1.8f;
     public float smoothSpeed = 5f;
@@ -13,7 +13,7 @@ public class CameraFollow : MonoBehaviour
     public Vector2 distanceMinMax = new Vector2(2f, 10f);
     public LayerMask terrainLayerMask;
     public float terrainOffset = 1f;
-    public Vector2 fovMinMax = new Vector2(30, 60); // Add min and max values for FOV
+    public Vector2 fovMinMax = new Vector2(30, 60);
 
     private Vector3 currentVelocity;
     private float rotationX;
@@ -56,7 +56,6 @@ public class CameraFollow : MonoBehaviour
         distance -= scrollInput * zoomSpeed;
         distance = Mathf.Clamp(distance, distanceMinMax.x, distanceMinMax.y);
 
-        // Adjust FOV based on the zoom level
         MainCamera.fieldOfView = Mathf.Lerp(fovMinMax.y, fovMinMax.x, (distance - distanceMinMax.x) / (distanceMinMax.y - distanceMinMax.x));
 
         Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);

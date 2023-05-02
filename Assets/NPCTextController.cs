@@ -1,69 +1,54 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class NPCTextController : MonoBehaviour
 {
-    public TextMeshProUGUI dialogueText;
-    public float typingSpeed = 0.02f;
-
-    private bool isDialogueActive = false;
-    private bool isSpeedingUp = false;
-    private Coroutine currentCoroutine;
-    private Transform npcTransform;
-
-    public void StartDialogue(string[] sentences, Transform npcTransform)
+    public TextMeshProUGUI textObject;
+    public Transform npcTransform;
+    private int currentDialogueIndex = 0;
+    private bool dialogueActive = false;
+    private string[][] dialogues = new string[][]
     {
-        if (!isDialogueActive)
+        new string[] { "Press F" },
+        new string[] { "Welcome to this buggy world traveler!" },
+        new string[] { "This is an adventure in which you can choose to read this or not." },
+        new string[] { "There you go, multiple choice game!" }
+    };
+
+    void Start()
+    {
+        if (textObject == null)
         {
-            isDialogueActive = true;
-            this.npcTransform = npcTransform;
-            currentCoroutine = StartCoroutine(TypeSentences(sentences));
+            Debug.LogError("Text object is not assigned in the NPCTextController script.");
+            return;
+        }
+
+        textObject.text = dialogues[currentDialogueIndex][0];
+    }
+
+    public void StartDialogue(string[] dialogueText, Transform npcTransform)
+    {
+        if (currentDialogueIndex < dialogues.Length)
+        {
+            textObject.text = dialogues[currentDialogueIndex][0];
+            dialogueActive = true;
+        }
+        else
+        {
+            dialogueActive = false;
         }
     }
 
     public void EndDialogue()
     {
-        if (isDialogueActive)
-        {
-            isDialogueActive = false;
-            StopCoroutine(currentCoroutine);
-            dialogueText.text = "";
-            dialogueText.gameObject.SetActive(false);
-        }
-    }
-
-    public void SpeedUpText()
-    {
-        isSpeedingUp = true;
+        textObject.text = "";
+        dialogueActive = false;
+        currentDialogueIndex++;
     }
 
     public bool IsDialogueActive()
     {
-        return isDialogueActive;
+        return dialogueActive;
     }
-
-    private IEnumerator TypeSentences(string[] sentences)
-    {
-        foreach (string sentence in sentences)
-        {
-            dialogueText.text = "";
-            foreach (char letter in sentence.ToCharArray())
-            {
-                dialogueText.text += letter;
-                float waitTime = isSpeedingUp ? typingSpeed * 0.1f : typingSpeed;
-                yield return new WaitForSeconds(waitTime);
-            }
-            isSpeedingUp = false;
-            yield return new WaitForSeconds(1f);
-        }
-        EndDialogue();
-    }
-
-    public void SetDialoguePosition()
-    {
-        dialogueText.gameObject.SetActive(true);
-        dialogueText.transform.position = dialogueText.transform.position = new Vector3(0f, 1.969f, 0.037f);
-}
 }

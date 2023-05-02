@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class NPC : MonoBehaviour
 {
     public string[] sentences;
     public float interactionRange = 3f;
     public GameObject player;
-    public GameObject dialoguePosition;
+
     private NPCTextController textController;
     private bool playerInRange = false;
 
@@ -28,7 +29,6 @@ public class NPC : MonoBehaviour
             if (textController && !textController.IsDialogueActive())
             {
                 textController.StartDialogue(sentences, transform);
-                textController.SetDialoguePosition();
             }
             else if (textController && textController.IsDialogueActive())
             {
