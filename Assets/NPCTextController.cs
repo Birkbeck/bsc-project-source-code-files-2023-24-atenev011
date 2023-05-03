@@ -1,14 +1,19 @@
+/// <summary>
+/// Author: atenev01
+/// Class for the dialogue.
+/// </summary>
+
 using System.Collections;
 using TMPro;
 using UnityEngine;
 
 public class NPCTextController : MonoBehaviour
 {
-    public TextMeshProUGUI textObject;
-    public Transform npcTransform;
-    private int currentDialogueIndex = 0;
-    private bool dialogueActive = false;
-    private string[][] dialogues = new string[][]
+    public TextMeshProUGUI textObject; // Reference to text object
+    public Transform npcTransform; // Reference to NPC transform
+    private int currentDialogueIndex = 0; // Current dialogue index
+    private bool dialogueActive = false; // Is dialogue active?
+    private string[][] dialogues = new string[][] // Array of dialogue options
     {
         new string[] { "Press F" },
         new string[] { "Welcome to this buggy world traveler!" },
@@ -18,37 +23,37 @@ public class NPCTextController : MonoBehaviour
 
     void Start()
     {
-        if (textObject == null)
+        if (textObject == null) // If text object is not assigned, log error message
         {
             Debug.LogError("Text object is not assigned in the NPCTextController script.");
             return;
         }
 
-        textObject.text = dialogues[currentDialogueIndex][0];
+        textObject.text = dialogues[currentDialogueIndex][0]; // Set initial dialogue text
     }
 
     public void StartDialogue(string[] dialogueText, Transform npcTransform)
     {
-        if (currentDialogueIndex < dialogues.Length)
+        if (currentDialogueIndex < dialogues.Length) // If there are more dialogues available
         {
-            textObject.text = dialogues[currentDialogueIndex][0];
-            dialogueActive = true;
+            textObject.text = dialogues[currentDialogueIndex][0]; // Set dialogue text
+            dialogueActive = true; // Set dialogue to active
         }
         else
         {
-            dialogueActive = false;
+            dialogueActive = false; // Set dialogue to inactive
         }
     }
 
     public void EndDialogue()
     {
-        textObject.text = "";
-        dialogueActive = false;
-        currentDialogueIndex++;
+        textObject.text = ""; // Clear text
+        dialogueActive = false; // Set dialogue to inactive
+        currentDialogueIndex++; // Move to next dialogue
     }
 
     public bool IsDialogueActive()
     {
-        return dialogueActive;
+        return dialogueActive; // Return whether dialogue is active
     }
 }

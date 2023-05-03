@@ -1,3 +1,7 @@
+/// <summary>
+/// Author: atenev01
+/// Class for box colider.
+/// </summary>
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,17 +10,15 @@ public class TreeColliderAdder : MonoBehaviour
 {
     void Start()
     {
-        // Find all GameObjects in the scene with the name "tree_1"
+        // Find all GameObjects in the scene with the tag "tree_1"
         GameObject[] trees = GameObject.FindGameObjectsWithTag("tree_1");
 
-        // Loop through each tree GameObject and add a BoxCollider component
+        // Loop through each tree and add a BoxCollider component if it doesn't already have one
         foreach (GameObject tree in trees)
         {
-            // Check if the tree already has a collider component
-            if (tree.GetComponent<BoxCollider>() == null)
+            if (tree.GetComponent<BoxCollider>() == null) // If tree doesn't have a collider component
             {
-                // Add a BoxCollider component to the tree
-                tree.AddComponent<BoxCollider>();
+                tree.AddComponent<BoxCollider>(); // Add a BoxCollider component
             }
         }
     }

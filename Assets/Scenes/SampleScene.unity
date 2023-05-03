@@ -713,7 +713,7 @@ Camera:
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 2
+  m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
@@ -774,17 +774,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 543450653490344449}
   headTarget: {fileID: 8700783698622080108}
-  distance: 4
+  distance: 1
   adjustableHeight: 1.8
-  smoothSpeed: 5
-  rotationMinMax: {x: -40, y: 80}
+  smoothSpeed: 50
+  rotationMinMax: {x: -80, y: 80}
   rotationSpeed: 3
-  zoomSpeed: 10
-  distanceMinMax: {x: 2, y: 40}
+  zoomSpeed: 0
+  distanceMinMax: {x: 4, y: 80}
   terrainLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  terrainOffset: 1
+  terrainOffset: 10
   fovMinMax: {x: 30, y: 60}
 --- !u!136 &1425526329
 CapsuleCollider:
@@ -794,11 +794,11 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1425526324}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
+  m_Height: 0.1
+  m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1563581119
 PrefabInstance:
@@ -3174,7 +3174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8222759664358454089, guid: 59c0b959f951a8345b9264e6737a10a7, type: 3}
       propertyPath: m_margin.x
-      value: 1.307373
+      value: 0.88153076
       objectReference: {fileID: 0}
     - target: {fileID: 8222759664358454089, guid: 59c0b959f951a8345b9264e6737a10a7, type: 3}
       propertyPath: m_margin.y
@@ -3182,7 +3182,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8222759664358454089, guid: 59c0b959f951a8345b9264e6737a10a7, type: 3}
       propertyPath: m_margin.z
-      value: -2.9479065
+      value: -3.3627014
       objectReference: {fileID: 0}
     - target: {fileID: 8222759664358454089, guid: 59c0b959f951a8345b9264e6737a10a7, type: 3}
       propertyPath: m_fontColor.b
