@@ -1,80 +1,86 @@
-/// <summary>
-/// Author: atenev01
-/// Class for camera following the player.
-/// </summary>
-
 using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    public Transform target; // Target to follow
-    public Transform headTarget; // Target for camera rotation
-    public float distance = 4f; // Distance from target
-    public float adjustableHeight = 1.8f; // Height offset
-    public float smoothSpeed = 5f; // Camera movement speed
-    public Vector2 rotationMinMax = new Vector2(-40, 80); // Min and max rotation angles
-    public float rotationSpeed = 3f; // Rotation speed
-    public float zoomSpeed = 10f; // Zoom speed
-    public Vector2 distanceMinMax = new Vector2(2f, 10f); // Min and max distance from target
-    public LayerMask terrainLayerMask; // Layer mask for terrain
-    public float terrainOffset = 1f; // Offset for terrain detection
-    public Vector2 fovMinMax = new Vector2(30, 60); // Min and max FOV
+    public Transform target;
+    public Transform headTarget;
+    public float distance = 4f;
+    public float adjustableHeight = 1.8f;
+    public float smoothSpeed = 5f;
+    public Vector2 rotationMinMax = new Vector2(-40, 80);
+    public float rotationSpeed = 3f;
+    public float zoomSpeed = 10f;
+    public Vector2 distanceMinMax = new Vector2(2f, 10f);
+    public LayerMask terrainLayerMask;
+    public float terrainOffset = 1f;
+    public Vector2 fovMinMax = new Vector2(30, 60);
 
-    private Vector3 currentVelocity; // Current camera velocity
-    private float rotationX; // X rotation
-    private float rotationY; // Y rotation
+    private Vector3 currentVelocity;
+    private float rotationX;
+    private float rotationY;
 
-    public static Camera MainCamera { get; private set; } // Reference to main camera
+    private bool isRightMouseButtonDown = false;
+
+    public static Camera MainCamera { get; private set; }
 
     private void Awake()
     {
-        MainCamera = GetComponentInChildren<Camera>(); // Get main camera component
+        MainCamera = GetComponentInChildren<Camera>();
+        if (Application.platform != RuntimePlatform.WebGLPlayer)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
     }
 
-    private void Start()
+    void Update()
     {
-        Cursor.lockState = CursorLockMode.Locked; // Lock cursor to screen
-        Cursor.visible = false; // Hide cursor
+        // Check for right mouse button press and release to update our flag
+        if (Input.GetMouseButtonDown(1))
+        {
+            isRightMouseButtonDown = true;
+        }
+        if (Input.GetMouseButtonUp(1)) isRightMouseButtonDown = false;
     }
 
     private void LateUpdate()
     {
-        if (Input.GetMouseButton(1)) // If right mouse button is pressed
+        if (isRightMouseButtonDown)
         {
-            rotationY += Input.GetAxis("Mouse X") * rotationSpeed; // Update Y rotation
-            rotationX -= Input.GetAxis("Mouse Y") * rotationSpeed; // Update X rotation
+            rotationY += Input.GetAxis("Mouse X") * rotationSpeed;
+            rotationX -= Input.GetAxis("Mouse Y") * rotationSpeed;
 
             RaycastHit hitInfo;
             float terrainDistance = Physics.Raycast(target.position, Vector3.down, out hitInfo, Mathf.Infinity, terrainLayerMask) ? hitInfo.distance : Mathf.Infinity;
 
             if (distance > 4f && terrainDistance < 2f)
             {
-                rotationX = Mathf.Clamp(rotationX, rotationMinMax.x, Mathf.Min(rotationX, rotationMinMax.y)); // Clamp X rotation
+                rotationX = Mathf.Clamp(rotationX, rotationMinMax.x, Mathf.Min(rotationX, rotationMinMax.y));
             }
             else
             {
-                rotationX = Mathf.Clamp(rotationX, rotationMinMax.x, rotationMinMax.y); // Clamp X rotation
+                rotationX = Mathf.Clamp(rotationX, rotationMinMax.x, rotationMinMax.y);
             }
         }
 
-        float scrollInput = Input.GetAxis("Mouse ScrollWheel"); // Get scroll input
-        distance -= scrollInput * zoomSpeed; // Update distance
-        distance = Mathf.Clamp(distance, distanceMinMax.x, distanceMinMax.y); // Clamp distance
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        distance -= scrollInput * zoomSpeed;
+        distance = Mathf.Clamp(distance, distanceMinMax.x, distanceMinMax.y);
 
-        MainCamera.fieldOfView = Mathf.Lerp(fovMinMax.y, fovMinMax.x, (distance - distanceMinMax.x) / (distanceMinMax.y - distanceMinMax.x)); // Update FOV
+        MainCamera.fieldOfView = Mathf.Lerp(fovMinMax.y, fovMinMax.x, (distance - distanceMinMax.x) / (distanceMinMax.y - distanceMinMax.x));
 
-        Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0); // Calculate rotation
+        Quaternion rotation = Quaternion.Euler(rotationX, rotationY, 0);
 
-        Vector3 targetPosition = headTarget.position - (rotation * Vector3.forward * distance) + (Vector3.up * adjustableHeight); // Calculate target position
+        Vector3 targetPosition = headTarget.position - (rotation * Vector3.forward * distance) + (Vector3.up * adjustableHeight);
 
         RaycastHit hit;
-        if (Physics.Raycast(target.position, (targetPosition - target.position).normalized, out hit, distance, terrainLayerMask)) // If raycast hits terrain
+        if (Physics.Raycast(target.position, (targetPosition - target.position).normalized, out hit, distance, terrainLayerMask))
         {
-            targetPosition = hit.point + hit.normal * terrainOffset; // Update target position with terrain offset
+            targetPosition = hit.point + hit.normal * terrainOffset;
         }
 
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothSpeed * Time.deltaTime); // Move camera
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothSpeed * Time.deltaTime);
 
-        transform.LookAt(headTarget); // Look at head target
+        transform.LookAt(headTarget);
     }
 }
